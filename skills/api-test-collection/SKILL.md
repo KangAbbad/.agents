@@ -1,29 +1,29 @@
 ---
 name: api-test-collection
-description: Create and maintain Bruno scoped test flows or Hoppscotch API test collections. Use when adding new API endpoints, creating route modules, or updating existing collections.
+description: Create and maintain API test collections. Use Bruno for scoped flow tests and Hoppscotch for standalone collection tests. Both tools serve different purposes and are equally important.
 ---
 
 # API Test Collection Skill
 
 ## Quick Start
 
-Choose your tool:
+**Both tools serve different purposes and are equally important:**
 
-**Bruno** (CLI, file-based) — **RECOMMENDED**:
+**Bruno** — Primary for **Scoped Flow Tests**:
 - Location: `bruno-collections/{resource-collection}/`
 - Format: `.bru` files in numbered flow folders
-- Best for: Version control, CI/CD, automated testing
+- Best for: Multi-step flows, CI/CD automation, version control, sequential request chains
 - **Key concept**: Scoped flows that chain requests with auto-authentication
 
-**Hoppscotch** (GUI, JSON):
+**Hoppscotch** — Primary for **Standalone Collection Tests**:
 - Location: `hoppscotch-collections/{entity-name}-collection.json`
 - Format: Single JSON file per collection
-- Best for: GUI-first workflows, quick manual testing
+- Best for: GUI-first workflows, quick manual testing, standalone request organization
 - Collection structure: `{v: 11, id: "...", name: "...", folders: [], requests: [], auth: {...}, headers: [], variables: [], description: ""}`
 
 ---
 
-## Bruno Scoped Test Flows (Recommended)
+## Bruno — Scoped Test Flows
 
 ### What are Scoped Flows?
 
@@ -36,33 +36,33 @@ Scoped flows are **self-contained test scenarios** that chain multiple API reque
 ### Flow Directory Structure
 
 ```
-bruno-collections/{resource-collection}/
-├── README.md                          # Collection documentation
+bruno-collections/
 ├── environments/
-│   ├── Local.bru.example             # Template for all flows (reference only)
-│   └── Local.bru                     # Parent env (optional, gitignored)
+│   └── Local.bru.example             # Shared template for ALL collections
 │
-├── {flow-folder}/                    # ← Flow directory (kebab-case name)
-│   ├── bruno.json                    # Makes it a runnable collection
-│   ├── flow.md                       # Documents purpose and steps
-│   ├── environments/
-│   │   └── Local.bru                 # Flow-specific env (gitignored, real credentials)
-│   ├── 1-login.bru                   # Step 1: Always login first
-│   ├── 2-create-resource.bru         # Step 2: Create entity
-│   ├── 3-get-detail.bru              # Step 3: Verify creation
-│   ├── 4-update-resource.bru         # Step 4: Update entity
-│   └── 5-get-detail-after-update.bru # Step 5: Verify update
-│
-├── {another-flow}/                   # Additional flows for this resource
-│   ├── bruno.json
-│   ├── environments/Local.bru
-│   ├── 1-login.bru
-│   ├── 2-create-resource.bru
-│   ├── 3-delete-resource.bru
-│   ├── 4-get-detail-expect-404.bru
-│   └── flow.md
-│
-└── {standalone-request}.bru          # (Optional) standalone for quick testing
+├── {resource-collection}/            # ← e.g., "transactions", "contacts"
+│   ├── README.md                     # Collection documentation
+│   ├── {flow-folder}/                # ← Flow directory (kebab-case name)
+│   │   ├── bruno.json                # Makes it a runnable collection
+│   │   ├── flow.md                   # Documents purpose and steps
+│   │   ├── environments/
+│   │   │   └── Local.bru             # Flow-specific env (gitignored, real credentials)
+│   │   ├── 1-login.bru               # Step 1: Always login first
+│   │   ├── 2-create-resource.bru     # Step 2: Create entity
+│   │   ├── 3-get-detail.bru          # Step 3: Verify creation
+│   │   ├── 4-update-resource.bru     # Step 4: Update entity
+│   │   └── 5-get-detail-after-update.bru # Step 5: Verify update
+│   │
+│   ├── {another-flow}/               # Additional flows for this resource
+│   │   ├── bruno.json
+│   │   ├── environments/Local.bru
+│   │   ├── 1-login.bru
+│   │   ├── 2-create-resource.bru
+│   │   ├── 3-delete-resource.bru
+│   │   ├── 4-get-detail-expect-404.bru
+│   │   └── flow.md
+│   │
+│   └── {standalone-request}.bru      # (Optional) standalone for quick testing
 ```
 
 ### Key Design Principles
@@ -80,11 +80,23 @@ bruno-collections/{resource-collection}/
 
 ## Workflows
 
+### When to Use Which Tool
+
+| Use Case | Tool | Reason |
+|----------|------|--------|
+| Multi-step sequential flows | **Bruno** | Numbered execution order, environment variable passing |
+| CI/CD integration | **Bruno** | CLI-based, file-based, version control friendly |
+| Automated regression testing | **Bruno** | Scriptable, assertions, can run in pipelines |
+| API exploration, manual testing | **Hoppscotch** | GUI interface, quick iteration |
+| Organizing standalone requests | **Hoppscotch** | Folder structure, visual organization |
+| One-off request testing | **Hoppscotch** | No setup, immediate execution |
+| Team sharing (non-devs) | **Hoppscotch** | Visual interface, import/export JSON |
+
 ### Creating a New Flow (Bruno)
 
 1. **Create flow folder** with kebab-case name in resource collection root
 2. **Create `bruno.json`** to make it a runnable collection
-3. **Set up per-flow environment** (`environments/Local.bru` copied from parent's example)
+3. **Set up per-flow environment** (`environments/Local.bru` copied from shared `bruno-collections/environments/Local.bru.example`)
 4. **Add `1-login.bru`** (copy from template — identical across all flows)
 5. **Write action steps** numbered sequentially (`2-`, `3-`, `4-`, etc.)
 6. **Add verification steps** to validate each action
@@ -123,7 +135,9 @@ See [guidelines/bruno/02-templates.md](guidelines/bruno/02-templates.md) for det
 
 ## Pre-Update Checklist
 
-- [ ] Which tool? (Bruno vs Hoppscotch) — **Prefer Bruno flows**
+- [ ] Which tool fits the use case?
+  - **Use Bruno**: Multi-step flows, CI/CD, automation, sequential chains
+  - **Use Hoppscotch**: Standalone requests, GUI testing, quick exploration
 - [ ] New flow or update existing?
 - [ ] New endpoint or update existing?
 - [ ] Auth type? (public/protected)
@@ -188,13 +202,13 @@ bru run . --env-file environments/Local.bru -o results.json
 
 ## References
 
-### Bruno
+### Bruno — Scoped Test Flows
 - [Flow Patterns](guidelines/bruno/01-flow-patterns.md)
 - [Templates](guidelines/bruno/02-templates.md)
 - [Environment Variables](guidelines/bruno/03-environment-variables.md)
 - [Troubleshooting](guidelines/bruno/04-troubleshooting.md)
 
-### Hoppscotch
+### Hoppscotch — Standalone Collection Tests
 - [Basics](guidelines/hoppscotch/01-basics.md)
 
 ### General

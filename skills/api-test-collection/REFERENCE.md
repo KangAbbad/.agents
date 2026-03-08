@@ -44,7 +44,7 @@ bru run . --env-file environments/Local.bru -o results.json
 
 Detailed guides organized by tool:
 
-### Bruno (Recommended)
+### Bruno — Scoped Test Flows
 
 #### [bruno/01-flow-patterns.md](guidelines/bruno/01-flow-patterns.md)
 Common patterns for test flows:
@@ -85,7 +85,7 @@ Common issues and solutions:
 - Environment file not found
 - Request body issues
 
-### Hoppscotch (Alternative)
+### Hoppscotch — Standalone Collection Tests
 
 #### [hoppscotch/01-basics.md](guidelines/hoppscotch/01-basics.md)
 - Collection structure

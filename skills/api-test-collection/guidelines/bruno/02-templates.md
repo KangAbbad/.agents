@@ -381,36 +381,38 @@ Brief description of what this collection tests.
 ## Directory Structure
 
 ```
-{resource-collection}/
-├── README.md
+bruno-collections/
 ├── environments/
-│   └── Local.bru.example          # Template for all flows
+│   └── Local.bru.example          # Shared template for ALL collections
 │
-├── {flow-folder}/                 # Flow: Create + Verify
-│   ├── bruno.json
-│   ├── flow.md
-│   ├── environments/Local.bru
-│   ├── 1-login.bru
-│   ├── 2-create-{resource}.bru
-│   └── 3-get-detail.bru
-│
-├── {another-flow}/                # Flow: Create + Delete + Verify 404
-│   ├── bruno.json
-│   ├── flow.md
-│   ├── environments/Local.bru
-│   ├── 1-login.bru
-│   ├── 2-create-{resource}.bru
-│   ├── 3-delete-{resource}.bru
-│   └── 4-get-detail-expect-404.bru
-│
-└── (Optional) standalone.bru      # For quick manual testing
+├── {resource-collection}/
+│   ├── README.md
+│   ├── {flow-folder}/              # Flow: Create + Verify
+│   │   ├── bruno.json
+│   │   ├── flow.md
+│   │   ├── environments/Local.bru
+│   │   ├── 1-login.bru
+│   │   ├── 2-create-{resource}.bru
+│   │   └── 3-get-detail.bru
+│   │
+│   ├── {another-flow}/            # Flow: Create + Delete + Verify 404
+│   │   ├── bruno.json
+│   │   ├── flow.md
+│   │   ├── environments/Local.bru
+│   │   ├── 1-login.bru
+│   │   ├── 2-create-{resource}.bru
+│   │   ├── 3-delete-{resource}.bru
+│   │   └── 4-get-detail-expect-404.bru
+│   │
+│   └── (Optional) standalone.bru  # For quick manual testing
 ```
 
 ## Setup
 
 1. **Copy the example environment for each flow:**
    ```bash
-   cp environments/Local.bru.example {flow-folder}/environments/Local.bru
+   cp bruno-collections/environments/Local.bru.example \
+      bruno-collections/{resource-collection}/{flow-folder}/environments/Local.bru
    ```
 
 2. **Edit values in each flow's `environments/Local.bru`:**
