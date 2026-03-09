@@ -71,6 +71,7 @@ bruno-collections/
 |-----------|-----------|
 | Flows are the **primary** testing method | Self-contained flows with auto-auth are easier to run than standalone files |
 | Flows live **directly** in the collection root | Easy to find, no nested `flows/` directory |
+| No parent `bruno.json` by default | Resource root is organizer/docs only; only flow folders need `bruno.json` |
 | Numbered prefixes (`1-`, `2-`, `3-`) | Bruno runs files alphabetically — numbers enforce execution order |
 | Login is **duplicated** per flow | Each flow is fully self-contained, no cross-dependencies |
 | **Per-flow environments** | Each flow has its own `environments/` for complete isolation |
@@ -95,7 +96,7 @@ bruno-collections/
 ### Creating a New Flow (Bruno)
 
 1. **Create flow folder** with kebab-case name in resource collection root
-2. **Create `bruno.json`** to make it a runnable collection
+2. **Create flow-level `bruno.json`** to make that flow runnable
 3. **Set up per-flow environment** (`environments/Local.bru` copied from shared `bruno-collections/environments/Local.bru.example`)
 4. **Add `1-login.bru`** (copy from template — identical across all flows)
 5. **Write action steps** numbered sequentially (`2-`, `3-`, `4-`, etc.)
@@ -130,6 +131,8 @@ See [guidelines/bruno/02-templates.md](guidelines/bruno/02-templates.md) for det
    - `flow.md` documentation
 5. **Configure auth**: `auth: bearer` with `{{accessToken}}`
 6. **Test all flows** to verify they work
+
+Do not add `bruno.json` to `bruno-collections/{resource}/` unless that root folder itself is intentionally runnable.
 
 ---
 

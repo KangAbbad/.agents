@@ -375,6 +375,8 @@ Tests the delete/soft-delete lifecycle for an article type.
 
 ## Parent Collection README.md Template
 
+Do not create `bruno-collections/{resource-collection}/bruno.json` for organizer-only folders. Only each runnable flow folder should have `bruno.json`.
+
 ```markdown
 # {Entity} API Collection
 
