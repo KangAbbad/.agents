@@ -255,7 +255,7 @@ Common issues and solutions when working with Bruno test flows.
 | No `flow.md` | Document the flow's purpose, steps, and expected outcomes |
 | Missing `script:post-response` | Add to create request to auto-set IDs for later steps |
 | Hardcoded IDs in requests | Always use `{{variable}}` syntax |
-| No `.gitignore` for environments | Add immediately to prevent token leaks |
+| No environment ignore coverage | Add a repo-level ignore rule for `environments/*.bru`; avoid redundant per-flow `.gitignore` files |
 | Wrong variable name case | Variable names are case-sensitive: `articleTypeId` ≠ `articletypeid` |
 | Missing `auth: bearer` | Protected endpoints need bearer auth with `{{accessToken}}` |
 | Wrong `seq` number | `seq` in meta block must match file prefix number |

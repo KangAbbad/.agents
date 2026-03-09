@@ -18,6 +18,8 @@ Copy these templates when creating new flows.
 
 ## Flow environments/Local.bru
 
+Prefer copying values from an existing working flow environment in the repo when one already exists. Do not invent new placeholder credentials if the user asked to mirror an existing `Local.bru`.
+
 ```bru
 vars {
   baseUrl: http://localhost:8787
@@ -409,18 +411,20 @@ bruno-collections/
 
 ## Setup
 
-1. **Copy the example environment for each flow:**
+1. **Create or copy the environment for each flow:**
    ```bash
    cp bruno-collections/environments/Local.bru.example \
       bruno-collections/{resource-collection}/{flow-folder}/environments/Local.bru
    ```
 
-2. **Edit values in each flow's `environments/Local.bru`:**
-   - `baseUrl`: Your API base URL
-   - `testEmail`: Valid test user email
-   - `testPassword`: Valid test user password
+2. **If another flow already has correct local credentials, copy from that file first instead of retyping values.**
 
-3. **Flows automatically handle authentication** — no manual token needed.
+3. **Edit values in each flow's `environments/Local.bru`:**
+    - `baseUrl`: Your API base URL
+    - `testEmail`: Valid test user email
+    - `testPassword`: Valid test user password
+
+4. **Flows automatically handle authentication** — no manual token needed.
 
 ## Running Flows
 
@@ -453,7 +457,7 @@ bru run . --env-file environments/Local.bru --delay 500
 
 ## Security Note
 
-- All `environments/Local.bru` files are gitignored
+- Do not add per-flow `.gitignore` files if repository-level gitignore already covers `environments/*.bru`
 - Never commit real tokens
 - Use `Local.bru.example` as template only
 ```

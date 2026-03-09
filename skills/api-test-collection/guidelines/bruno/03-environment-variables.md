@@ -6,7 +6,9 @@ Catalog of environment variables used in test flows.
 
 ## Always Required
 
-These variables must be defined in every flow's `environments/Local.bru`:
+These variables must be defined in every flow's `environments/Local.bru`.
+
+When the repo already contains a known-good `Local.bru`, prefer copying those values into new flow environments instead of inventing placeholders.
 
 | Variable | Description | Source | Example |
 |----------|-------------|--------|---------|
@@ -141,3 +143,5 @@ vars {
 ```
 
 Each flow copies this template and fills in only the variables it needs.
+
+Avoid adding flow-level `.gitignore` files when a global gitignore rule already excludes `environments/Local.bru`.
