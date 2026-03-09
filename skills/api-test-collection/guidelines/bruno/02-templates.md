@@ -386,9 +386,6 @@ Brief description of what this collection tests.
 
 ```
 bruno-collections/
-├── environments/
-│   └── Local.bru.example          # Shared template for ALL collections
-│
 ├── {resource-collection}/
 │   ├── README.md
 │   ├── {flow-folder}/              # Flow: Create + Verify
@@ -415,11 +412,14 @@ bruno-collections/
 
 1. **Create or copy the environment for each flow:**
    ```bash
-   cp bruno-collections/environments/Local.bru.example \
-      bruno-collections/{resource-collection}/{flow-folder}/environments/Local.bru
-   ```
+    cp bruno-collections/some-working-flow/environments/Local.bru \
+       bruno-collections/{resource-collection}/{flow-folder}/environments/Local.bru
+    ```
 
 2. **If another flow already has correct local credentials, copy from that file first instead of retyping values.**
+
+Do not create `bruno-collections/{resource-collection}/environments/` for organizer-only collections.
+Do not add `Local.bru.example` inside runnable flow folders.
 
 3. **Edit values in each flow's `environments/Local.bru`:**
     - `baseUrl`: Your API base URL
@@ -460,8 +460,9 @@ bru run . --env-file environments/Local.bru --delay 500
 ## Security Note
 
 - Do not add per-flow `.gitignore` files if repository-level gitignore already covers `environments/*.bru`
+- Do not add resource-root `environments/` for organizer-only collections
+- Do not add any `Local.bru.example` files for organizer-only collections
 - Never commit real tokens
-- Use `Local.bru.example` as template only
 ```
 
 ---

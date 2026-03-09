@@ -146,7 +146,9 @@ Use this checklist when creating a new scoped flow:
 - [ ] **Flow folder** created with `kebab-case` name directly in the collection root (e.g., `{resource-collection}/{flow-folder}/`)
 - [ ] **`bruno.json`** created inside flow folder (makes it a runnable collection)
 - [ ] **`environments/`** directory created inside the flow folder
-- [ ] **`environments/Local.bru`** created (gitignored) with real credentials (copy from parent `Local.bru.example`)
+- [ ] **`environments/Local.bru`** created (gitignored) with real credentials (copy values from another working flow)
+- [ ] No root-level `environments/` directory for organizer collections
+- [ ] No root-level or flow-level `environments/Local.bru.example` for organizer collections
 - [ ] **`1-login.bru`** copied from template (identical across all flows)
 - [ ] **Action steps** numbered sequentially (`2-`, `3-`, `4-`, etc.)
 - [ ] **Each action step** includes:

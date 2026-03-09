@@ -37,9 +37,6 @@ Scoped flows are **self-contained test scenarios** that chain multiple API reque
 
 ```
 bruno-collections/
-├── environments/
-│   └── Local.bru.example             # Shared template for ALL collections
-│
 ├── {resource-collection}/            # ← e.g., "transactions", "contacts"
 │   ├── README.md                     # Collection documentation
 │   ├── {flow-folder}/                # ← Flow directory (kebab-case name)
@@ -97,7 +94,7 @@ bruno-collections/
 
 1. **Create flow folder** with kebab-case name in resource collection root
 2. **Create flow-level `bruno.json`** to make that flow runnable
-3. **Set up per-flow environment** (`environments/Local.bru` copied from shared `bruno-collections/environments/Local.bru.example`)
+3. **Set up per-flow environment** (`environments/Local.bru` inside each flow)
 4. **Add `1-login.bru`** (copy from template — identical across all flows)
 5. **Write action steps** numbered sequentially (`2-`, `3-`, `4-`, etc.)
 6. **Add verification steps** to validate each action
@@ -118,8 +115,7 @@ See [guidelines/bruno/02-templates.md](guidelines/bruno/02-templates.md) for det
 ### Creating New CRUD Module
 
 1. **Create collection folder** in `bruno-collections/{resource}/`
-2. **Add parent `environments/Local.bru.example`** as template
-3. **Create flows** (not standalone files):
+2. **Create flows** (not standalone files):
    - `create-{resource}/` — Create + Verify
    - `update-{resource}/` — Create + Update + Verify
    - `delete-{resource}/` — Create + Delete + Verify 404
@@ -133,6 +129,8 @@ See [guidelines/bruno/02-templates.md](guidelines/bruno/02-templates.md) for det
 6. **Test all flows** to verify they work
 
 Do not add `bruno.json` to `bruno-collections/{resource}/` unless that root folder itself is intentionally runnable.
+Do not add root-level `environments/` for organizer collections.
+Do not add root-level or flow-level `environments/Local.bru.example` for organizer collections.
 
 ---
 

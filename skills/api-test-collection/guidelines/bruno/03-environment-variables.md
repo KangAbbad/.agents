@@ -117,9 +117,11 @@ script:post-response {
 
 ---
 
-## Parent Collection Template
+## Flow Environment Template
 
-The parent collection's `environments/Local.bru.example` should list all possible variables:
+Organizer collections must not have root `environments/` directories.
+Keep real `Local.bru` files only inside runnable flow folders.
+Do not add `Local.bru.example` inside runnable flow folders.
 
 ```bru
 vars {
@@ -142,6 +144,6 @@ vars {
 }
 ```
 
-Each flow copies this template and fills in only the variables it needs.
+Reuse this structure inside each runnable flow and fill in only the variables it needs.
 
 Avoid adding flow-level `.gitignore` files when a global gitignore rule already excludes `environments/Local.bru`.
