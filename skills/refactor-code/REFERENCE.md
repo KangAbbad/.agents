@@ -216,6 +216,29 @@ const { isLoading: isCustomerLoading, create: createCustomer } =
 - Use dynamic imports with `ssr: false`
 - Make timestamps consistent between server/client
 
+### 11. Clickable Cursor Rule
+
+Every clickable component must visually indicate interactivity with pointer cursor.
+
+**Already covered:** Shared UI `Button` includes `cursor-pointer` in its base variant.
+
+**Must add manually:** Raw `button`, clickable cards, custom triggers, clickable icons, and any non-Button element with `onClick`.
+
+**Forbidden:**
+
+```tsx
+<div onClick={openDetail}>Open</div>
+<button className="flex items-center" onClick={toggleOpen}>Toggle</button>
+```
+
+**Correct:**
+
+```tsx
+<div className="cursor-pointer" onClick={openDetail}>Open</div>
+<button className="flex cursor-pointer items-center" onClick={toggleOpen}>Toggle</button>
+<Card className="hover:cursor-pointer hover:bg-gray-50 transition-colors" onClick={openDetail} />
+```
+
 ---
 
 ## API Contracts

@@ -57,6 +57,7 @@ Before changing code:
 - [ ] Are React components self-contained? (own their logic via hooks)
 - [ ] Is JSX property order correct? (required → components → styling → handlers)
 - [ ] Is conditional data extracted to variables before JSX?
+- [ ] Does every clickable component show pointer cursor? (raw `button`, custom trigger, clickable icon/card, or any non-Button `onClick` needs `cursor-pointer` / `hover:cursor-pointer`)
 - [ ] Are icon imports using Icon suffix? (`PlusIcon` not `Plus`)
 - [ ] Is `clsx` used for conditional className?
 - [ ] Are Ant Design Button icons passed as children (not icon prop)?
@@ -81,6 +82,7 @@ Before changing code:
 | JSX ordering             | `onClick` before `className`                   | Required → Components → className → style → Handlers |
 | Prop drilling            | `onSave={saveData}` from parent                | Component owns logic via custom hook                 |
 | Inline conditionals      | `{data ? format() : 'N/A'}`                    | Extract to variable: `const value = data ? ...`      |
+| Clickable cursor         | `<div onClick={...}>` without pointer cursor   | Add `cursor-pointer` / `hover:cursor-pointer`        |
 | Lucide imports           | `import { Plus }`                              | `import { PlusIcon }`                                |
 | Tailwind conditionals    | `className={isActive ? 'bg-blue' : 'bg-gray'}` | Use `clsx` for conditional classes                   |
 | Ant Button icon          | `<Button icon={<PlusIcon />}>`                 | `<Button><PlusIcon />...</Button>`                   |
