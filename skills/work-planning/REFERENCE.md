@@ -81,6 +81,21 @@ Every plan **must** include a `README.md`:
 
 ---
 
+## Project Type Detection
+
+Before creating task verification instructions, inspect project stack/files and classify the plan:
+
+| Project Type | Signals | Task Verification Guidance |
+|--------------|---------|----------------------------|
+| frontend | React, Vue, Svelte, Remix, Next.js app UI, browser routes, UI components | E2E/browser tests for UI and API integration flows |
+| backend | API routes, server handlers, database, workers, service-only code | API testing collections |
+| full-stack | Both frontend UI and backend/API changes | Both frontend and backend guidance |
+| unknown | Insufficient stack signals or unclear scope | Ask user or use generic project verification |
+
+Only include verification guidance relevant to the detected project type. Do not list both frontend and backend instructions unless the plan is full-stack or unknown requires generic fallback. Unit tests are optional/additional only when the project uses them.
+
+---
+
 ## Task File Template
 
 **Filename:** `task-01.md`, `task-02.md`, etc. (sequential numbering)
@@ -90,12 +105,19 @@ Every plan **must** include a `README.md`:
 
 - Load `AGENTS.md` for project-wide guidelines (architecture, patterns, constraints)
 - Load `docs/code-standard/README.md` and only referenced docs needed for the current task
+- Inspect project stack/files and confirm this plan is `{frontend|backend|full-stack|unknown}`
 - Read existing business logic first
 - Execute steps in order
-- **If code changes made**: Run `bun typecheck` to verify
-- **If changed files have unit tests**: Run `bun test:run` to verify tests pass
+- **If code changes made**: Run the project typecheck command to verify
+- **If frontend plan**: Prioritize E2E/browser tests for UI and API integration flows
+- **If backend plan**: Prioritize existing API testing collections for verification
+- **If full-stack plan**: Prioritize both E2E/browser tests and API testing collections
+- **If unknown plan**: Ask user or use the project's generic verification path
+- **If project uses unit tests for affected code**: Run relevant unit tests as optional additional verification
 - **If no violations found**: Skip typecheck/tests, mark as passed
 - Set `**Passes:** true` after verification (or when no violations exist)
+
+**Project Type:** {frontend|backend|full-stack|unknown}
 
 **Refactoring Constraints:**
 
@@ -125,6 +147,7 @@ Every plan **must** include a `README.md`:
 | Field | Format | Required |
 |-------|--------|----------|
 | **Workflow** | Bullet list of execution instructions | ✓ Always |
+| **Project Type** | `frontend`, `backend`, `full-stack`, or `unknown` | ✓ Always |
 | **Refactoring Constraints** | Critical rules to preserve | Only for refactor plans |
 | **Passes** | `false`, `true`, or `skipped - {reason}` | ✓ Always |
 | **Category** | `route`, `component`, `hook`, `service`, `type`, `utility` | ✓ Always |
@@ -158,8 +181,12 @@ Every plan **must** include a `README.md`:
 
 5. **Execute steps in order**
 6. **Verify changes**:
-   - Code changes made? → Run `bun typecheck`
-   - Changed files have unit tests? → Run `bun test:run`
+   - Code changes made? → Run the project typecheck command
+   - Frontend plan? → Prioritize E2E/browser tests for UI and API integration flows
+   - Backend plan? → Prioritize existing API testing collections
+   - Full-stack plan? → Prioritize both E2E/browser tests and API testing collections
+   - Unknown plan? → Ask user or use generic project verification
+   - Project uses unit tests for affected code? → Run relevant unit tests as optional additional verification
    - No violations found? → Skip verification, mark as passed
 
 ### After Completion
@@ -241,7 +268,7 @@ items.map((item) => <div key={item.id}>...</div>)
 | Value | Meaning | When to Use |
 |-------|---------|-------------|
 | `false` | Pending verification | Initial state, task not started |
-| `true` | Verified complete | After typecheck/tests pass |
+| `true` | Verified complete | After required verification passes |
 | `skipped - {reason}` | Intentionally skipped | No code changes needed, or task deprecated |
 
 ### Examples
@@ -307,10 +334,14 @@ Migrate customer list page from inline table to useTableFactory hook for consist
 
 - Load `AGENTS.md` for project-wide guidelines
 - Load `docs/code-standard/README.md`
+- Inspect project stack/files and confirm this plan is `frontend`
 - Read existing customer route implementation
 - Execute steps in order
 - **If code changes made**: Run `bun typecheck` to verify
+- **If frontend plan**: Prioritize E2E/browser tests for UI and API integration flows
 - Set `**Passes:** true` after verification
+
+**Project Type:** frontend
 
 **Refactoring Constraints:**
 
@@ -343,7 +374,8 @@ Migrate customer list page from inline table to useTableFactory hook for consist
 
 ### Before Creating Plan
 
-- [ ] Researched codebase for domain terms and patterns
+- [ ] Researched codebase for domain terms, stack, and patterns
+- [ ] Classified plan as frontend, backend, full-stack, or unknown
 - [ ] Chosen descriptive, specific topic name
 - [ ] Determined if feature or refactor
 - [ ] Identified all affected areas
@@ -358,6 +390,7 @@ Migrate customer list page from inline table to useTableFactory hook for consist
 ### Task Files
 
 - [ ] All task files have required fields
+- [ ] Project Type is set and verification guidance matches it
 - [ ] Category is valid
 - [ ] Description uses action-result format
 - [ ] Steps use imperative verbs
@@ -369,5 +402,6 @@ Migrate customer list page from inline table to useTableFactory hook for consist
 
 - [ ] All tasks executed in order
 - [ ] Typecheck run for code changes
-- [ ] Tests run for affected files
+- [ ] Project-type verification run or documented
+- [ ] Unit tests run only as optional/additional when project uses them
 - [ ] All passes marked `true` or `skipped`

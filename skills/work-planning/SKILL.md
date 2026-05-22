@@ -21,19 +21,21 @@ docs/{feature-plan|refactor-plan}/{YYYYMMDD}/{descriptive-topic}/
 
 ### Creating a Feature Plan
 
-1. **Research codebase** to understand domain and patterns
-2. **Create directory**: `docs/feature-plan/{YYYYMMDD}/{specific-topic}/`
-3. **Write README.md** with Purpose, Scope, Execution Order, Notes
-4. **Create task files** (one per task): `task-01.md`, `task-02.md`, etc.
-5. **Verify structure** matches examples in REFERENCE.md
+1. **Research codebase** to understand domain, stack, and patterns
+2. **Classify project type** as frontend, backend, full-stack, or unknown
+3. **Create directory**: `docs/feature-plan/{YYYYMMDD}/{specific-topic}/`
+4. **Write README.md** with Purpose, Scope, Execution Order, Notes
+5. **Create task files** (one per task): `task-01.md`, `task-02.md`, etc. with project-type verification only
+6. **Verify structure** matches examples in REFERENCE.md
 
 ### Creating a Refactor Plan
 
-1. **Analyze code** to identify refactoring targets
-2. **Create directory**: `docs/refactor-plan/{YYYYMMDD}/{specific-topic}/`
-3. **Write README.md** with refactoring scope and risks
-4. **Create task files** with **Refactoring Constraints** section
-5. **Mark dependencies** in Execution Order
+1. **Analyze code** to identify refactoring targets, stack, and project type
+2. **Classify project type** as frontend, backend, full-stack, or unknown
+3. **Create directory**: `docs/refactor-plan/{YYYYMMDD}/{specific-topic}/`
+4. **Write README.md** with refactoring scope and risks
+5. **Create task files** with **Refactoring Constraints** section and project-type verification only
+6. **Mark dependencies** in Execution Order
 
 ## Directory Naming Rules
 
@@ -49,7 +51,8 @@ docs/{feature-plan|refactor-plan}/{YYYYMMDD}/{descriptive-topic}/
 
 Every task must include:
 
-- **Workflow**: Load AGENTS.md, read business logic, execute steps, verify
+- **Workflow**: Load AGENTS.md, inspect project type, read business logic, execute steps, verify
+- **Project Type**: frontend, backend, full-stack, or unknown
 - **Category**: route, component, hook, service, type, utility
 - **Description**: Action-result, present tense
 - **Files Affected**: Specific file paths
@@ -58,12 +61,18 @@ Every task must include:
 
 ## Verification Checklist
 
-Before marking task complete:
+Before creating task verification instructions:
 
-- [ ] Code changes made? → Run `bun typecheck`
-- [ ] Files have unit tests? → Run `bun test:run`
-- [ ] No violations? → Mark `**Passes:** true`
-- [ ] Refactoring? → Preserved useEffect dependencies and EntityType
+- [ ] Inspect project stack/files
+- [ ] Classify plan as frontend, backend, full-stack, or unknown
+- [ ] Frontend? → Include E2E/browser tests for UI and API integration flows
+- [ ] Backend? → Include API testing collections
+- [ ] Full-stack? → Include both frontend and backend verification
+- [ ] Unknown? → Ask user or use generic project verification
+- [ ] Code changes made? → Run project typecheck
+- [ ] Project uses unit tests for affected code? → Mention relevant unit tests as optional additional verification
+- [ ] Avoid listing both frontend and backend guidance unless full-stack or unknown requires it
+- [ ] Refactoring? → Preserve useEffect dependencies and EntityType
 
 ## References
 
