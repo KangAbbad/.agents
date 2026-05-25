@@ -12,6 +12,8 @@ description: Provides standardization guidelines for backend Hono endpoint devel
 - **Service layer (`services/`) orchestrates**: Handles auth, validation, cache, and business rules.
 - **Repositories (`repositories/`) access DB**: Strict isolation of Drizzle queries.
 - **DTO Projection**: Services must map DB objects to stable API DTOs; do not expose internal DB models.
+- **Environment Configuration**: Do not hardcode environment/config variables such as `ALLOWED_ORIGINS`; store them in `.env.local`, `.dev.vars`, or the appropriate environment file.
+- **Secrets**: Never hardcode secrets.
 - **RLS Enforcement**: Always execute database work through `runWithRLS`.
 
 ## Definition of Done (Code Pattern)
