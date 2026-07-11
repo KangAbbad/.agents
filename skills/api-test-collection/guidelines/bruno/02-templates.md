@@ -1,6 +1,6 @@
 # Bruno Flow Templates
 
-Copy these templates when creating new flows.
+Copy these templates when creating new flows. Before copying a request template, analyze the feature dependency chain: auth, parent resources, roles, seed data, files/uploads, verification, and cleanup.
 
 ---
 
@@ -32,9 +32,11 @@ vars {
 
 ---
 
-## 1-login.bru (Required First Step)
+## 1-login.bru (Required First Step for Authenticated Flows)
 
-Every flow starts with this identical login step:
+Before creating any collection case that needs access tokens, refresh tokens, bearer auth, session cookies, authenticated API keys, or auth-derived state, create the login/auth step first. Public flows and negative unauthenticated flows may omit it only when that is the explicit purpose.
+
+When the API has a login endpoint, use this pattern:
 
 ```bru
 meta {
@@ -69,7 +71,58 @@ script:post-response {
 }
 ```
 
+If the API has no login endpoint, use an explicit auth bootstrap as `1-login.bru` and document the exception in `flow.md`:
+
+```bru
+meta {
+  name: Login
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/api/health
+  body: none
+  auth: none
+}
+
+assert {
+  res.status: eq 200
+}
+
+script:pre-request {
+  const token = bru.getEnvVar("accessToken");
+  if (!token) {
+    throw new Error("accessToken is required in environments/Local.bru for authenticated flows");
+  }
+  bru.setVar("accessToken", token);
+}
+```
+
 ---
+
+## Dependency-Aware Flow Shape
+
+Do not create isolated endpoint requests when the feature requires setup. Build the full path needed to make the endpoint meaningful:
+
+```text
+1-login.bru
+2-create-parent-resource.bru
+3-create-or-run-target-action.bru
+4-list-or-get-resource.bru      # verify target action worked
+5-update-resource.bru           # optional CRUD continuation
+6-delete-resource.bru           # cleanup child
+7-delete-parent-resource.bru    # cleanup parent
+```
+
+Example for category creation:
+
+```text
+1-login.bru
+2-create-workspace.bru
+3-create-category.bru
+4-list-categories.bru
+```
 
 ## Action Step Template (POST/PATCH/DELETE)
 
