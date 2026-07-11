@@ -1,4 +1,4 @@
-# Refactor Code Reference
+# Code Standard Reference
 
 ## TypeScript Patterns
 
@@ -736,7 +736,7 @@ className={clsx(
 
 ---
 
-## Complete Refactor Checklist
+## Complete Standards Checklist
 
 ### TypeScript
 

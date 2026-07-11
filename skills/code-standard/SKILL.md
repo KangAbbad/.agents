@@ -1,9 +1,9 @@
 ---
-name: refactor-code
-description: Refactor code to follow TypeScript, API contracts, Drizzle ORM, and React component patterns. Use when refactoring, cleaning up code, or applying code standards to existing files. Handles React components, hooks, JSX ordering, and styling rules.
+name: code-standard
+description: Apply code standards to follow TypeScript, API contracts, Drizzle ORM, and React component patterns. Use when cleaning up code or applying code standards to existing files. Handles React components, hooks, JSX ordering, and styling rules.
 ---
 
-# Refactor Code Skill
+# Code Standard Skill
 
 ## Quick Start
 
@@ -16,7 +16,7 @@ Analyze file against standards, then apply fixes:
 
 ## Workflows
 
-### Refactoring a Single File
+### Checking a Single File
 
 1. Read the target file
 2. Check against patterns in REFERENCE.md
@@ -27,7 +27,7 @@ Analyze file against standards, then apply fixes:
    - Low: Style/consistency
 4. Run typecheck: `bun typecheck`
 
-### Refactoring Multiple Files
+### Checking Multiple Files
 
 1. Use glob to find files: `glob "src/**/*.ts"`
 2. Prioritize by:
@@ -40,10 +40,10 @@ Analyze file against standards, then apply fixes:
    - Files with prop drilling (handlers passed unnecessarily)
    - Files with wrong JSX property ordering
    - Files with conditional logic in JSX
-3. Refactor one file at a time
+3. Check one file at a time
 4. Run typecheck after each file
 
-## Pre-Refactor Checklist
+## Pre-Check Checklist
 
 Before changing code:
 
@@ -62,7 +62,7 @@ Before changing code:
 - [ ] Is `clsx` used for conditional className?
 - [ ] Are Ant Design Button icons passed as children (not icon prop)?
 
-## Common Refactors
+## Common Standards Table
 
 | Pattern                  | Find                                           | Replace With                                         |
 | ------------------------ | ---------------------------------------------- | ---------------------------------------------------- |
