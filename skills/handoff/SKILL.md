@@ -11,8 +11,10 @@ Create a concise handoff document so a fresh agent can continue the work.
 ## Workflow
 
 1. Identify the current workspace.
-   - If working in a specific project, save under its `docs/` directory.
-   - If no specific workspace applies, save under a temp directory.
+   - If working in a specific project, save handoffs under `docs/handoff/{date}/{title}.md`.
+   - `{date}` must use `YYYYMMDD` format.
+   - `{title}` must be a short kebab-case topic.
+   - If no specific workspace applies, save under a temp directory using the same `{date}/{title}.md` pattern.
 2. If arguments are provided, treat them as the next-session focus and tailor the handoff around that use case.
 3. Review current conversation and capture only information needed to continue.
 4. Redact secrets, credentials, tokens, personal data, and sensitive environment details.
