@@ -56,7 +56,7 @@ resourceRoute.route('/', getRoute)
 resourceRoute.route('/', postRoute)
 resourceRoute.route('/', patchRoute)
 resourceRoute.route('/', deleteRoute)
-resourceRoute.route('/:idOrSlug/members', memberRoute)
+resourceRoute.route('/:slug/members', memberRoute)
 ```
 
 ### `services/*` (request orchestration)
@@ -133,11 +133,36 @@ customValidator('param', ResourceDetailParamsDTOSchema)
 - Use `authMiddleware` for protected endpoints before validators/handler logic.
 - Use `optionalAuthMiddleware` for endpoints that read public data but optionally personalize for authenticated users.
 
-### 3) Route params naming
+### 3) Route params and identifier priority
 
-- Use `:idOrSlug` when detail endpoints accept either identifier.
-- Use `:id` only when endpoint is UUID-only by contract.
-- Keep parameter naming consistent across `types/query.ts`, services, and FE contracts.
+- Prefer `slug` first when available.
+- Prefer actual domain/public identifiers such as `code`, `symbol`, or `number` next.
+- Treat primitive `id` as the last fallback only when the user explicitly requests UUID-only behavior or no domain/public identifier exists.
+- Prefer actual identifier names (`slug`, `code`, `symbol`, `number`) when known.
+- Use `lookup` or `<resource>Lookup` for mutation/detail lookup values that can accept slug/code/id fallback.
+- Avoid generic names that conflict with framework primitives like `key` and `ref`.
+- Avoid `*Id` unless the value is guaranteed to be an internal UUID/DB id.
+- For fields that can represent global/org scope, prefer purpose names like `organizationScope`.
+- Apply identifier priority to BE route params, variable names, service/repository args, schemas, API response/integration naming, cache keys, and API test collections.
+- Use names like `:slug`, `:code`, `:number`, or the actual domain identifier; avoid making primitive `id` the public route contract.
+- Backend may resolve the public identifier to an internal UUID server-side for mutations, version checks, uniqueness checks, deletes, restores, and cache invalidation.
+- Keep the public API contract domain identifier first even when internal mutation logic uses the resolved UUID.
+- Keep parameter naming consistent across `types/query.ts`, services, repositories, FE contracts, test collections, and cache helpers.
+
+### 3a) Identifier priority across the API/form contract
+
+The same priority rule governs the backend request body schema AND the frontend form that submits to it. If the backend defines a field as text, the form emits text; if the backend defines a field as a database id, the form emits the database id. Mismatches cause 400s and force refactors on both sides. Inspect the backend request body schema before changing a form field.
+
+| Backend schema says | Frontend form sends | What to display to the user | React `key` prop |
+| --- | --- | --- | --- |
+| `z.string()` (text) | the text value | a label | the unique id |
+| `z.uuid()` (database id) | the database id | a label | the unique id |
+
+Common mistake: sending a database id when the request body schema expects text. Sending text when the schema expects a database id. Either breaks the contract.
+
+Common mistake: keying dropdown options on a non-unique field. Two records can share the same display value. React emits duplicate-key warnings and the user can pick the wrong row. Always key on a field that is unique across records.
+
+For the FE-side companion rule, see the FE CRUD boilerplate docs (`overview.md` → Identifier Rules, `input-fields.md` → Select Field).
 
 ### 4) Response envelope shape
 
@@ -182,7 +207,7 @@ Use descriptive names (`outlet-list-query`, `resource-update`).
 When caching is enabled for a resource:
 
 - `GET /resource` should use versioned list cache keys by user scope.
-- `GET /resource/:idOrSlug` should use detail cache keys scoped by user.
+- `GET /resource/:slug` / `:code` / `:number` / actual domain identifier should use detail cache keys scoped by user.
 - `POST/PATCH/DELETE` should bump list cache version before responding.
 - Detail cache invalidation can run in `waitUntil` when non-blocking.
 
@@ -217,7 +242,7 @@ Use when the resource maps to a primary table users own and edit.
 Required layout:
 
 - Services split per HTTP verb: `get.ts`, `post.ts`, `patch.ts`, `delete.ts`.
-- Detail endpoints accept `:idOrSlug` and resolve via `lib/resolve*.ts`.
+- Detail endpoints accept `:slug`, `:code`, `:number`, or another domain/public identifier shape; primitive `:id` is last fallback only.
 - List endpoints implement pagination + filter + sort.
 - Mutations bump list cache version and invalidate detail cache.
 
@@ -230,7 +255,8 @@ Do:
 Don’t:
 
 - Hard-delete tenant-owned rows.
-- Build write endpoints that take `:idOrSlug` and silently use slug-only behavior; always resolve to canonical id internally.
+- Treat primitive `id` as the primary public contract when `slug`, `code`, or another domain identifier exists.
+- Use the raw path param directly in update/delete/restore SQL after resolving by slug/code; always mutate using the resolved record internally.
 
 ### Master Data with Ownership Scope (global + tenant/user scoped resources)
 
@@ -270,7 +296,7 @@ Don’t:
 
 - Add mutation endpoints to lookup routes; create a separate management route module instead.
 
-### Sub-Resource Routes (e.g. `/{parent}/:idOrSlug/{child}`)
+### Sub-Resource Routes (e.g. `/{parent}/:slug/{child}`)
 
 Use when a resource only makes sense scoped under a parent resource.
 
@@ -596,6 +622,9 @@ Before merging a new endpoint implementation:
 - [ ] DB access only in `repositories/*`
 - [ ] all params/body/query validated with Zod + `customValidator`
 - [ ] auth + authorization checks implemented in services
+- [ ] public route contracts prioritize `slug`/`code`/domain identifiers before primitive `id`
+- [ ] request body schemas match the public identifier the FE form will emit (`z.string()` for human-readable fields like `unit`, `z.uuid()` only when the FE resolves to an internal UUID) — coordinate with FE before changing either side
+- [ ] multi-identifier mutations resolve once and use the resolved record internally
 - [ ] response envelope follows project convention
 - [ ] error classes from `lib/errors` used
 - [ ] list/detail cache + mutation invalidation strategy implemented if cache is used
@@ -618,6 +647,9 @@ For every new or changed endpoint:
 
 - Fat `route.ts` files with repository calls inline.
 - Inconsistent param names (`id` in path, `idOrSlug` in schema, mixed usage).
+- Prioritizing primitive `id` while `slug`, `code`, or another domain identifier exists.
+- Picking a more complex identifier type than the use case needs. Use text when the schema is for human-readable input; use a database id only when the operation specifically requires server-side record lookup.
+- Resolving by slug/code, then using the raw path param for mutation SQL, uniqueness exclusion, version checks, restore, or delete.
 - Unbounded list endpoints without pagination support.
 - Multiple response envelope styles for same resource family.
 - Business logic hidden in repositories.
