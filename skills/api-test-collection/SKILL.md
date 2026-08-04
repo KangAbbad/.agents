@@ -79,6 +79,10 @@ bruno-collections/
 | **Per-flow environments** | Each flow has its own `environments/` for complete isolation |
 | `flow.md` per flow folder | Documents the purpose, steps, and expected outcomes |
 
+### Organization-Scoped Identifier Convention
+
+For organization-scoped API collections, use `organizationId` (or `organizationIds` for arrays) for request, query, payload variables, and keys; values are organization slugs (or slug arrays). Use `organizationUuid`/`organizationUuids` only for true UUID values. Never expose `organizationSlug` as a public request key.
+
 ---
 
 ## Workflows
