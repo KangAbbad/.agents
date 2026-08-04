@@ -18,6 +18,15 @@
       "skillFolderHash": "2f252b35aa238879afc5a230ac30343708dee0b3",
       "installedAt": "2026-02-24T09:45:51.245Z",
       "updatedAt": "2026-02-24T09:45:51.245Z"
+    },
+    "design-taste-frontend": {
+      "source": "Leonxlnx/taste-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/Leonxlnx/taste-skill.git",
+      "skillPath": "skills/taste-skill/SKILL.md",
+      "skillFolderHash": "a6d128e53b4ec0238baee751dde33bf707adb5ec",
+      "installedAt": "2026-08-03T07:34:26.331Z",
+      "updatedAt": "2026-08-03T07:34:26.331Z"
     }
   },
   "dismissed": {
@@ -25,11 +34,18 @@
   },
   "lastSelectedAgents": [
     "amp",
+    "antigravity",
+    "antigravity-cli",
+    "cline",
     "codex",
     "cursor",
+    "deepagents",
     "gemini-cli",
     "github-copilot",
-    "kimi-cli",
-    "opencode"
+    "kimi-code-cli",
+    "opencode",
+    "warp",
+    "zed",
+    "claude-code"
   ]
 }
