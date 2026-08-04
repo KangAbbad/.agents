@@ -90,6 +90,33 @@
       "skillFolderHash": "0f13465d2cd3d3920c8fb991b93083f13035046c",
       "installedAt": "2026-08-04T05:59:29.888Z",
       "updatedAt": "2026-08-04T05:59:29.888Z"
+    },
+    "hermes-memory-providers": {
+      "source": "mnemosyne-oss/mnemosyne",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mnemosyne-oss/mnemosyne.git",
+      "skillPath": "skills/hermes-memory-providers/SKILL.md",
+      "skillFolderHash": "653ea58c2b6b7266d7e8600f66eccdc70d9cb621",
+      "installedAt": "2026-08-04T06:09:40.993Z",
+      "updatedAt": "2026-08-04T06:09:40.993Z"
+    },
+    "no-mistakes": {
+      "source": "mnemosyne-oss/mnemosyne",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mnemosyne-oss/mnemosyne.git",
+      "skillPath": ".agents/skills/no-mistakes/SKILL.md",
+      "skillFolderHash": "ba98bffcc1707510807123af1af50fb990acb914",
+      "installedAt": "2026-08-04T06:09:40.999Z",
+      "updatedAt": "2026-08-04T06:09:40.999Z"
+    },
+    "mnemosyne-context": {
+      "source": "mnemosyne-oss/mnemosyne",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/mnemosyne-oss/mnemosyne.git",
+      "skillPath": ".claude/skills/mnemosyne-context/SKILL.md",
+      "skillFolderHash": "f24660c03260e3d453fb579ea2c79d6d71791475",
+      "installedAt": "2026-08-04T06:09:41.001Z",
+      "updatedAt": "2026-08-04T06:09:41.001Z"
     }
   },
   "dismissed": {
