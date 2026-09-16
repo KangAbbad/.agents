@@ -1,1 +1,3 @@
 .opencode/opencode.json
+# Wiki Agent System runtime state
+.wiki/.sessions/
